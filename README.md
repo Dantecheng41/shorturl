@@ -1,66 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Note
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Day1
 
-## About Laravel
+- PHP / Laravel 基本認識 （對應 RoR 加速理解
+  - Composer
+    - 套件管理，類似 RubyGems
+  - Laravel
+    - 後端框架，架構同 MVC
+- 安裝
+  - Composer
+  - Laravel
+  - PHP
+- 學習本地開發方式
+  - Laravel 架構大致理解對照 Rails
+  - 試著理解打通印出 Hello World
+  - 掃過各資料夾設定
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Day2
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- 確認需求
+  - Acceptance Criteria (以 Gherkin format 描述)：
+  - user 為 test 的角色進行，需要於 http request 內提供相對應之驗證資訊
+    - 可產生短網址
+      - Given: 無
+      - When: call GET /shorturl?url=<https://www.google.com>
+      - Then: 得到 response 200
+      - and Then: 得到 payload 為 <https://localhost/JKFIUMSDF> ((因不需部屬上線，故前方為 localhost， 後方為短網址編碼
+    - 短網址可連到正確的網址
+      - Given: 一串已經產生好的短網址 for google 首頁，假設為 <https://localhost/JKFIUMSDF>
+      - When: 瀏覽器開啟 <https://localhost/JKFIUMSDF>
+      - Then: response 302
+      - and Then: 瀏覽器會轉導到 <www.google.com>
+    - 重複輸入的短網址，需要產生出相同的結果
+      - Given: 已經針對 <www.google.com> 產生一組短網址，其 url 是 <https://localhost/JKFIUMSDF>
+      - When: call GET /shorturl?url=<https://www.google.com>
+      - Then: 得到 response 200
+      - and Then: 得到 payload 為 <https://localhost/JKFIUMSDF>
+- 規劃實作 Restful API
+  - 讀 Laravel v11 的官方文件
+  - Routes 實作
+  - Controller 設計
+    - 確認 Laravel 慣例
+    - 考慮封裝
+  - 功能
+    - 短網址生成
+        1. 轉換編碼
+        2. Database 規劃 I/O對應
+        3. Unique
+        4. 200
+        5. 驗證
+    - 實作短網址轉址 Route
+        1. 轉址
+        2. 302
+- 學習慣例以及開發方式
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Day3
 
-## Learning Laravel
+- 確認 Route api.php 的相關資訊
+  - 會有 /api 路徑段，放棄使用
+- 細節實作
+  - [x] Service
+    - 互相轉換的行為跟 Cache 包裝
+  - [x] Cache
+    - 讀取有打 Cache
+  - [x] Validation
+    - 驗 URL 格式
+  - Error Handle
+    - 暫時沒有 Error 問題
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Day4
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- 需求確認，重新審視
+- 效能調整
+  - Index
+    - 有打在 `short_path` 上
+- 重新確認設定合理性(提醒)
+  - 為何這樣設計
+  - 為何這樣設定
+  - 優缺取捨
+  - 有什麼考慮/想法
